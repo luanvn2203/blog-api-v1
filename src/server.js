@@ -31,6 +31,8 @@ app.get("/", (req, res) => {
 });
 
 require("./routers/turorial.routes")(app);
+require("./routers/user.routes")(app);
+
 
 app.listen(PORT, process.env.APP_HOST, () => {
     console.log(`Hello, Server running at port ${PORT} and host ${process.env.APP_HOST}`)
