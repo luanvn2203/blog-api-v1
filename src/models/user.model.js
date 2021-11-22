@@ -1,42 +1,24 @@
-'use strict';
-
-import { Model } from 'sequelize'
-
-module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
-  };
-  User.init({
+module.exports = (sequelize, Sequelize) => {
+  const User = sequelize.define("user", {
     email: {
-      type: DataTypes.STRING,
+      type: Sequelize.STRING,
       allowNull: false,
       primaryKey: true
     },
-    fullName: DataTypes.STRING,
-    hashedPassword: DataTypes.STRING(32),
-    intro: DataTypes.TEXT('tiny'),
-    profile: DataTypes.TEXT,
-    mobile: DataTypes.STRING(10),
+    username: Sequelize.STRING,
+    hashedPassword: Sequelize.STRING,
+    intro: Sequelize.TEXT('tiny'),
+    profile: Sequelize.TEXT,
+    mobile: Sequelize.STRING(10),
     isActived: {
-      type: DataTypes.BOOLEAN,
+      type: Sequelize.BOOLEAN,
       defaultValue: false
     },
     lastLogin: {
-      type: DataTypes.DATE,
+      type: Sequelize.DATE,
       allowNull: true
     }
-  },
+  });
 
-    {
-      sequelize,
-      modelName: 'user',
-    });
   return User;
 };

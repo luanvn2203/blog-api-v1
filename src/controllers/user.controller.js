@@ -1,41 +1,31 @@
-import db from '../models/index'
+import { USER_TRANS_ERROR, USER_TRANS_SUCCESS } from '../../lang/vi';
 import userService from '../services/user.service'
 import DBHelper from '../utils/DBHelper'
 
-const UserModel = db.users
-const Op = db.Sequelize.Op
 
 async function postRegister(req, res) {
-    // if (!req.body.email) {
-    //     res.status(400).send({
-    //         message: "Register content can not be empty!"
-    //     });
-    //     return;
-    // }
-    console.log('ahii')
-    console.log('ahii')
-    console.log('ahii')
-    console.log('ahii')
-    console.log('ahii')
-    const user = {
-        email: "luanvn@gmail.com",
-        hashedPassword: "123123123a",
-        fullName: "Vo Nhut Luan"
+    if (!req.body.email) {
+        res.status(400).send({
+            message: "Register content can not be empty!"
+        });
+        return;
     }
 
+    const email = req.body.email
+    const password = req.body.password
     try {
-        UserModel.create(user)
-            .then(data => {
-                res.send(data);
-            })
-            .catch(err => {
-                res.status(500).send({
-                    message:
-                        err.message || "Some error occurred while creating the Tutorial."
-                });
-            });
+        await userService.createNewUserAccount(email, password)
+        return res.status(201).json({
+            message: USER_TRANS_SUCCESS.REGISTER_SUCCESS
+        })
     } catch (error) {
-        res.status(500).json("error")
+        if (error.parent.message.includes("Duplicate entry")) {
+            return res.status(500).json(USER_TRANS_ERROR.EMAIL_HAS_BEEN_USE)
+        }
+        return res.status(500).json({
+            message: USER_TRANS_ERROR.INTERNAL_SERVER_ERROR,
+            error: error.errors[0].message
+        })
     }
 
 }
