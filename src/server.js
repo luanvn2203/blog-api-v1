@@ -5,11 +5,11 @@ import cors from 'cors'
 import db from '../src/models/index'
 import configRoutes from './routers/index'
 
-// db.sequelize.sync();
+db.sequelize.sync();
 
-db.sequelize.sync({ force: true }).then(() => {
-    console.log("Drop and re-sync db.");
-  });
+// db.sequelize.sync({ force: true }).then(() => {
+//     console.log("Drop and re-sync db.");
+//   });
 
 const app = express()
 

@@ -27,7 +27,7 @@ const generateToken = (payload) => {
  * @returns register status
  */
 async function postRegister(req, res) {
-    if (!req.body.email) {
+    if (!req.body.params.email) {
         res.status(CLIENT_ERROR_STATUS.BAD_REQUEST).send({
             message: "Register content can not be empty!"
         });
@@ -35,7 +35,7 @@ async function postRegister(req, res) {
     }
 
     try {
-        await userService.createNewUserAccount(req.body.email, req.body.password)
+        await userService.createNewUserAccount(req.body.params.email, req.body.params.password)
         return res.status(SUCCESSFUL_STATUS.CREATED).json({
             message: USER_TRANS_SUCCESS.REGISTER_SUCCESS
         })
@@ -59,7 +59,7 @@ async function postRegister(req, res) {
  */
 async function postLogin(req, res) {
     try {
-        const result = await userService.checkLogin(req.body.email, req.body.password)
+        const result = await userService.checkLogin(req.body.params.email, req.body.params.password)
         const userInforToGenerateToken = {
             email: result.email,
             username: result.username
