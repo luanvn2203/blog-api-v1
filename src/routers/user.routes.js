@@ -1,8 +1,9 @@
 
 import user from '../controllers/user.controller'
-
+import verifyToken from '../middlewares/auth'
 var router = require("express").Router();
-// Create a new Tutorial
-router.post("/register", user.postRegister);
 
+router.post("/register", user.postRegister);
+router.post("/login", user.postLogin)
+router.get('/me', verifyToken, user.getUserInfor)
 module.exports = router
