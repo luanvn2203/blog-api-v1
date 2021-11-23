@@ -46,7 +46,7 @@ async function postRegister(req, res) {
         }
         return res.status(SERVER_ERROR_STATUS.INTERNAL_SERVER_ERROR).json({
             message: USER_TRANS_ERROR.INTERNAL_SERVER_ERROR,
-            error: error.errors[0].message
+            error: error.name
         })
     }
 

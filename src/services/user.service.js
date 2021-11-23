@@ -60,15 +60,22 @@ async function checkLogin(email, password) {
 
 async function getUserInformationByPK(email) {
     return new Promise((resolve, reject) => {
-        UserModel.findByPk(email)
+        UserModel.findByPk(email,
+            {
+                include: [{
+                    model: db.roles,
+                    attributes: ['roleName', 'description']
+                }],
+                attributes: ['email', 'roleId', 'username'],
+            })
             .then(user => {
                 if (!user) {
                     return reject(USER_TRANS_ERROR.NOT_FOUND_USER_WITH_THIS_EMAIL)
                 }
-                delete user.dataValues.hashedPassword
-                delete user.dataValues.lastLogin
-                delete user.dataValues.createdAt
-                delete user.dataValues.updatedAt
+                // delete user.dataValues.hashedPassword
+                // delete user.dataValues.lastLogin
+                // delete user.dataValues.createdAt
+                // delete user.dataValues.updatedAt
 
                 return resolve(user)
             })
