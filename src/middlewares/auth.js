@@ -8,6 +8,7 @@ const verifyToken = (req, res, next) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
         req.email = decoded.email
+        req.signInUser = decode
         next()
     } catch (error) {
         return res.status(CLIENT_ERROR_STATUS.FORBIDDEN).json({

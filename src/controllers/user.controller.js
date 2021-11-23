@@ -63,7 +63,8 @@ async function postLogin(req, res) {
         const result = await userService.checkLogin(req.body.params.email, req.body.params.password)
         const userInforToGenerateToken = {
             email: result.email,
-            username: result.username
+            username: result.username,
+            roleId: result.roleId
             /**
              * other attributes
              * roleId : result.roleId
@@ -81,7 +82,7 @@ async function postLogin(req, res) {
         })
     } catch (error) {
         console.log(error)
-        return res.status(SUCCESSFUL_STATUS.RESET_CONTENT).json(error)
+        return res.status(SUCCESSFUL_STATUS.ACCEPTED).json(error)
     }
 }
 
@@ -96,7 +97,7 @@ async function getUserInfor(req, res) {
         const userInformation = await userService.getUserInformationByPK(req.email)
         res.status(SUCCESSFUL_STATUS.OK).json(userInformation)
     } catch (error) {
-        return res.status(SUCCESSFUL_STATUS.NO_CONTENT).json({
+        return res.status(SUCCESSFUL_STATUS.ACCEPTED).json({
             message: USER_TRANS_ERROR.NOT_FOUND_USER_WITH_THIS_EMAIL
         })
     }

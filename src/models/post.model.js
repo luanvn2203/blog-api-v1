@@ -1,36 +1,22 @@
-'use strict'
-import { Model } from 'sequelize'
-
-
-module.exports = (sequelize, DataTypes) => {
-    class Post extends Model {
-
-        static associate(models) {
-
-        }
-    }
-
-    Post.init({
+module.exports = (sequelize, Sequelize) => {
+    const Post = sequelize.define("post", {
         authorId: {
-            type: DataTypes.STRING,
+            type: Sequelize.STRING,
             allowNull: false,
         },
         title: {
-            type: DataTypes.STRING(100)
+            type: Sequelize.STRING(100)
         },
         metaTitle:{
-            type: DataTypes.STRING(100),
+            type: Sequelize.STRING(100),
         },
-        slug: DataTypes.STRING(100),
-        summary: DataTypes.TEXT('tiny'),
+        slug: Sequelize.STRING(100),
+        summary: Sequelize.TEXT('tiny'),
         isPublished: {
-            type:DataTypes.BOOLEAN,
+            type:Sequelize.BOOLEAN,
             defaultValue: false
         },
-        content: DataTypes.TEXT,
-    },{
-        sequelize,
-        modelName: 'post'
-    })
-    return Post
-}
+        content: Sequelize.TEXT,
+    });
+    return Post;
+};

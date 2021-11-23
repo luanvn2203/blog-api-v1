@@ -19,6 +19,10 @@ let configRelationShip = (db) => {
     //post has many post_tag
     db.posts.hasMany(db.postTags)
     db.postTags.belongsTo(db.posts, { foreignKey: 'postId' })
+
+    //user has one role
+    db.roles.hasMany(db.users)
+    db.users.belongsTo(db.roles, {foreignKey: 'roleId'})
 }
 
 module.exports = {

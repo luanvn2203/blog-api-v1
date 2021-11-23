@@ -19,16 +19,16 @@ db.Sequelize = Sequelize
 db.sequelize = sequelize
 
 //import model
-db.categories = require("./category.model")(sequelize, Sequelize);
-db.users = require('./user.model')(sequelize, Sequelize);
+db.categories = require("./category.model")(sequelize, Sequelize)
+db.users = require('./user.model')(sequelize, Sequelize)
 db.posts = require('./post.model')(sequelize, Sequelize)
 db.tags = require('./tag.model')(sequelize, Sequelize)
 db.postCategories = require('./postCategory.model')(sequelize, Sequelize)
 db.postTags = require('./postTag.model')(sequelize, Sequelize)
 db.postComments = require('./postComment.model')(sequelize, Sequelize)
-
-//Table relation ship
-configRelationShip(db)
+db.roles = require('./role.model')(sequelize, Sequelize)
+  //Table relation ship
+  configRelationShip(db)
 
 
 module.exports = db;

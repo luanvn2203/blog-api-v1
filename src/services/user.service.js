@@ -19,11 +19,12 @@ let createNewUserAccount = (email, password) => {
         const saltRounds = 7;
         const salt = bcrypt.genSaltSync(saltRounds);  // encrypt password
         const encryptPassword = bcrypt.hashSync(password, salt);
-
-        let user = {
+        const userRole = 1
+        const user = {
             email: email,
             hashedPassword: encryptPassword,
-            username: email.split("@")[0]
+            username: email.split("@")[0],
+            roleId: userRole
         }
         UserModel.create(user)
             .then(data => {
@@ -68,7 +69,7 @@ async function getUserInformationByPK(email) {
                 delete user.dataValues.lastLogin
                 delete user.dataValues.createdAt
                 delete user.dataValues.updatedAt
-                
+
                 return resolve(user)
             })
             .catch(err => {

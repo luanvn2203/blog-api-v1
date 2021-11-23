@@ -5,6 +5,10 @@ module.exports = (sequelize, Sequelize) => {
       allowNull: false,
       primaryKey: true
     },
+    roleId:{
+      type: Sequelize.INTEGER,
+      allowNull: false,
+    },
     username: Sequelize.STRING,
     hashedPassword: Sequelize.STRING,
     intro: Sequelize.TEXT('tiny'),

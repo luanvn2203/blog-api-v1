@@ -1,26 +1,13 @@
-'use strict'
-import { Model } from 'sequelize'
-
-
-module.exports = (sequelize, DataTypes) => {
-    class PostTag extends Model {
-        static associate(models) {
-
-        }
-    }
-
-    PostTag.init({
+module.exports = (sequelize, Sequelize) => {
+    const PostTag = sequelize.define("post_tags", {
         postId: {
-            type:DataTypes.INTEGER,
+            type: Sequelize.INTEGER,
             allowNull: false
         },
         tagId: {
-            type:DataTypes.INTEGER,
+            type: Sequelize.INTEGER,
             allowNull: false
         }
-    },{
-        sequelize,
-        tableName:'post_tags'
-    })
-    return PostTag
-}
+    });
+    return PostTag;
+};

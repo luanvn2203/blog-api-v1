@@ -1,26 +1,13 @@
-'use strict'
-import { Model } from 'sequelize'
-
-
-module.exports = (sequelize, DataTypes) => {
-    class PostCategory extends Model {
-        static associate(models) {
-
-        }
-    }
-
-    PostCategory.init({
+module.exports = (sequelize, Sequelize) => {
+    const PostCategory = sequelize.define("post_categories", {
         postId: {
-            type: DataTypes.INTEGER,
+            type: Sequelize.INTEGER,
             allowNull: false
         },
         categoryId: {
-            type: DataTypes.INTEGER,
+            type: Sequelize.INTEGER,
             allowNull: false
         }
-    }, {
-        sequelize,
-        tableName: 'post_categories'
-    })
-    return PostCategory
-}
+    });
+    return PostCategory;
+};

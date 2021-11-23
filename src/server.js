@@ -4,12 +4,13 @@ import express from 'express'
 import cors from 'cors'
 import db from '../src/models/index'
 import configRoutes from './routers/index'
+import roleService from './services/role.service'
+// db.sequelize.sync();
 
-db.sequelize.sync();
-
-// db.sequelize.sync({ force: true }).then(() => {
-//     console.log("Drop and re-sync db.");
-//   });
+db.sequelize.sync({ force: true }).then(() => {
+    console.log("Drop and re-sync db.");
+    roleService.addSampleRole()
+  });
 
 const app = express()
 
