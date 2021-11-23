@@ -27,6 +27,7 @@ const generateToken = (payload) => {
  * @returns register status
  */
 async function postRegister(req, res) {
+    console.log(req.body)
     if (!req.body.params.email) {
         res.status(CLIENT_ERROR_STATUS.BAD_REQUEST).send({
             message: "Register content can not be empty!"
@@ -41,7 +42,7 @@ async function postRegister(req, res) {
         })
     } catch (error) {
         if (error.parent.message.includes("Duplicate entry")) {
-            return res.status(SERVER_ERROR_STATUS.INTERNAL_SERVER_ERROR).json(USER_TRANS_ERROR.EMAIL_HAS_BEEN_USE)
+            return res.status(SUCCESSFUL_STATUS.ACCEPTED).json(USER_TRANS_ERROR.EMAIL_HAS_BEEN_USE)
         }
         return res.status(SERVER_ERROR_STATUS.INTERNAL_SERVER_ERROR).json({
             message: USER_TRANS_ERROR.INTERNAL_SERVER_ERROR,
