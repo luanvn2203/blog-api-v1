@@ -1,4 +1,5 @@
 require('dotenv').config()
+import { body, validationResult } from "express-validator/check"
 import { USER_TRANS_ERROR, USER_TRANS_SUCCESS } from '../../lang/vi';
 import { CLIENT_ERROR_STATUS, SERVER_ERROR_STATUS, SUCCESSFUL_STATUS } from '../configs/httpStatusCode';
 import userService from '../services/user.service'
@@ -27,14 +28,22 @@ const generateToken = (payload) => {
  * @returns register status
  */
 async function postRegister(req, res) {
-    console.log(req.body)
     if (!req.body.params.email) {
-        res.status(CLIENT_ERROR_STATUS.BAD_REQUEST).send({
+        return res.status(CLIENT_ERROR_STATUS.BAD_REQUEST).send({
             message: "Register content can not be empty!"
         });
-        return;
     }
-
+    let errorArr = []
+    let validationError = validationResult(req)
+    if (!validationError.isEmpty()) {
+        let errors = Object.values(validationError.mapped());
+        errors.forEach(item => {
+            errorArr.push(item.msg)
+        });
+        return res.status(CLIENT_ERROR_STATUS.BAD_REQUEST).send({
+            errors: errorArr
+        });
+    }
     try {
         await userService.createNewUserAccount(req.body.params.email, req.body.params.password)
         return res.status(SUCCESSFUL_STATUS.CREATED).json({
@@ -59,6 +68,18 @@ async function postRegister(req, res) {
  * @returns tokens
  */
 async function postLogin(req, res) {
+    let errorArr = []
+    let validationError = validationResult(req)
+    if (!validationError.isEmpty()) {
+        let errors = Object.values(validationError.mapped());
+        errors.forEach(item => {
+            console.log(item)
+            errorArr.push(item.msg)
+        });
+        return res.status(SUCCESSFUL_STATUS.ACCEPTED).send({
+            errors: errorArr
+        });
+    }
     try {
         const result = await userService.checkLogin(req.body.params.email, req.body.params.password)
         const userInforToGenerateToken = {
