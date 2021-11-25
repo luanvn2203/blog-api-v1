@@ -41,9 +41,16 @@ async function createNewPost(post) {
  * @param {object} post 
  * @returns promise
  */
-async function updatePost(post) {
+async function updatePost(post, id, authorId) {
     return new Promise((resolve, reject) => {
-        PostModel.update(post, { where: { id: post.id }, validate: true })
+        PostModel.update(post, {
+            where: {
+                [Op.and]: [
+                    { id: id },
+                    { authorId: authorId }
+                ]
+            }, validate: true
+        })
             .then(result => {
                 if (result[0] === 0) {
                     return reject(USER_TRANS_ERROR.UPDATE_POST_FAILED)
