@@ -31,6 +31,7 @@ async function createNewPost(req, res) {
         authorId: req.signInUser.email,
         title: req.body.params.title,
         metaTitle: req.body.params.metaTitle || null,
+        avatar: req.body.params.avatar || 'https://saigongiftbox.com/wp-content/uploads/2021/03/11-20-780x470.jpg',
         slug: req.body.params.slug || null,
         summary: req.body.params.summary || null,
         isPublished: req.body.params.isPublished,
@@ -61,6 +62,7 @@ async function updatePost(req, res) {
         id: req.body.params.id,
         title: req.body.params.title,
         metaTitle: req.body.params.metaTitle || null,
+        avatar: req.body.params.avatar || 'https://saigongiftbox.com/wp-content/uploads/2021/03/11-20-780x470.jpg',
         slug: req.body.params.slug || null,
         summary: req.body.params.summary || null,
         isPublished: req.body.params.isPublished,
@@ -68,7 +70,7 @@ async function updatePost(req, res) {
     }
     try {
         const result = await postService.updatePost(post)
-        return res.status(SUCCESSFUL_STATUS.CREATED).json({
+        return res.status(SUCCESSFUL_STATUS.OK).json({
             message: result
         }) 
     } catch (error) {

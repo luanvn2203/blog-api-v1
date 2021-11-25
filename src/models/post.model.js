@@ -10,16 +10,20 @@ module.exports = (sequelize, Sequelize) => {
         avatar: {
             type: Sequelize.STRING(300)
         },
-        metaTitle:{
+        metaTitle: {
             type: Sequelize.STRING(100),
         },
         slug: Sequelize.STRING(100),
         summary: Sequelize.TEXT('tiny'),
         isPublished: {
-            type:Sequelize.BOOLEAN,
+            type: Sequelize.BOOLEAN,
             defaultValue: false
         },
         content: Sequelize.TEXT,
+        status: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: true
+        }
     });
     return Post;
 };
