@@ -13,7 +13,7 @@ module.exports = (sequelize, Sequelize) => {
     hashedPassword: Sequelize.STRING,
     intro: Sequelize.TEXT('tiny'),
     profile: Sequelize.TEXT,
-    mobile: Sequelize.STRING(10),
+    mobile: Sequelize.STRING(11),
     isActived: {
       type: Sequelize.BOOLEAN,
       defaultValue: false

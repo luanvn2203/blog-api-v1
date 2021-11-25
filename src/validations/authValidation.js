@@ -20,7 +20,7 @@ let login = [
         .trim()
 ]
 
-module.exports = {
-    register: register,
-    login: login
+export default {
+    register,
+    login
 }

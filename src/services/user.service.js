@@ -2,7 +2,8 @@ import db from '../models/index'
 const UserModel = db.users
 const Op = db.Sequelize.Op
 import bcrypt from 'bcrypt'
-import { USER_TRANS_ERROR } from '../../lang/vi'
+import { USER_TRANS_ERROR, USER_TRANS_SUCCESS } from '../../lang/vi'
+import sequelize from 'sequelize'
 
 /**
  * 
@@ -85,8 +86,43 @@ async function getUserInformationByPK(email) {
     })
 }
 
+/**
+ * 
+ * @param {object} user 
+ * @param {PK} email 
+ * @returns 
+ */
+async function updateUser(user, email) {
+    return new Promise((resolve, reject) => {
+        UserModel.update(user, { where: { email: email } })
+            .then(result => {
+                if (result[0] === 0) {
+                    return reject(USER_TRANS_ERROR.UPDATE_USER_ERROR)
+                }
+                return resolve(USER_TRANS_SUCCESS.UPDATE_USER_SUCCESS)
+            })
+            .catch(err => {
+                return reject(USER_TRANS_ERROR.INTERNAL_SERVER_ERROR)
+            })
+    })
+}
+
+async function updateLastLogin(email) {
+    return new Promise((resolve, reject) => {
+        UserModel.update({ lastLogin: sequelize.literal('CURRENT_TIMESTAMP') }, { where: { email: email } })
+            .then(result => {
+                resolve(true)
+            })
+            .catch(err => {
+                resolve(err)
+            })
+    })
+}
+
 module.exports = {
     createNewUserAccount: createNewUserAccount,
     checkLogin: checkLogin,
-    getUserInformationByPK: getUserInformationByPK
+    updateLastLogin: updateLastLogin,
+    getUserInformationByPK: getUserInformationByPK,
+    updateUser: updateUser
 }

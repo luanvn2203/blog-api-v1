@@ -6,7 +6,8 @@ export const USER_TRANS_SUCCESS = {
     CREATE_TAGS_SUCCESS: 'Tạo mới thẻ bài viết thành công',
     CREATE_NEW_POST_SUCCESS: 'Tạo bài viết thành công',
 
-    UPDATE_POST_SUCCESS: 'Cập nhật bài viết thành công'
+    UPDATE_POST_SUCCESS: 'Cập nhật bài viết thành công',
+    UPDATE_USER_SUCCESS:'Cập nhật thông tin cá nhân thành công'
 
 }
 
@@ -24,6 +25,7 @@ export const USER_TRANS_ERROR = {
     CREATE_NEW_POST_FAILED_WITH_DUPLICATE_TITLE_AND_CREATOR: 'Tên bài viết đã tồn tại trong thư viện của bạn, vui lòng chọn tên khác',
 
     UPDATE_POST_FAILED: 'Cập nhật bài viết thất bại',
+    UPDATE_USER_ERROR: 'Cập nhật thông tin bản thân thất bại'
 }
 
 
@@ -32,7 +34,11 @@ export const USER_TRANS_ERROR = {
 export const AUTH_VALIDATIONS_ERROR = {
     EMAIL_INCORRECT: 'Email không hợp lệ',
     PASSWORD_INCORRECT: 'Mật khẩu bao gồm chữ hoa, chữ thường, số, ký tự đặc biệt và lớn hơn 8 ký tự',
-    CONFIRM_PASSWORD_NOT_MATCHES: 'Nhập lại mật khẩu không đúng'
+    CONFIRM_PASSWORD_NOT_MATCHES: 'Nhập lại mật khẩu không đúng',
+    USERNAME_INCORRECT: 'Tên người dùng không đúng, bao gồm chữ, số và không có ký tự đặc biệt, tối đa 32 ký tự',
+    INTRO_INCORRECT:'Phần giới thiệu bản thân ít nhất 8 ký tự',
+    PROFILE_INCORRECT: 'Phần hồ sơ cá nhân ít nhất 8 ký tự',
+    PHONE_INCORRECT:'Số điện thoại không đúng'
 }
 export const POST_VALIDATION_ERRORS = {
     TITLE_ERROR: "Tên bài viết quá dài, tối đa 100 ký tự",

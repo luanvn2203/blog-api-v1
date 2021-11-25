@@ -10,14 +10,14 @@ import categoryService from './services/category.service'
 import tagService from './services/tag.service'
 import mockData from './configs/mockData'
 
-// db.sequelize.sync();
+db.sequelize.sync();
 
-db.sequelize.sync({ force: true }).then(() => {
-    console.log("Drop and re-sync db.");
-    roleService.addSampleRole()
-    categoryService.createNewCategories(mockData.generateSampleCategories())
-    tagService.createNewTags(mockData.generateSampleTag())
-});
+// db.sequelize.sync({ force: true }).then(() => {
+//     console.log("Drop and re-sync db.");
+//     roleService.addSampleRole()
+//     categoryService.createNewCategories(mockData.generateSampleCategories())
+//     tagService.createNewTags(mockData.generateSampleTag())
+// });
 
 const app = express()
 

@@ -35,6 +35,12 @@ async function createNewPost(post) {
             })
     })
 }
+
+/**
+ * Update post
+ * @param {object} post 
+ * @returns promise
+ */
 async function updatePost(post) {
     return new Promise((resolve, reject) => {
         PostModel.update(post, { where: { id: post.id }, validate: true })

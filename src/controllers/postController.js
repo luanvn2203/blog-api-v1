@@ -1,24 +1,14 @@
 import { USER_TRANS_ERROR } from "../../lang/vi"
 import { CLIENT_ERROR_STATUS, SUCCESSFUL_STATUS } from "../configs/httpStatusCode"
 import postService from '../services/post.service'
-import { validationResult } from 'express-validator/check'
+import {handleError} from '../utils/Helper'
 
-
-let handleError = (req, res) => {
-    const errorArr = []
-    const validationError = validationResult(req)
-    if (!validationError.isEmpty()) {
-        let errors = Object.values(validationError.mapped())
-        errors.forEach(item => {
-            errorArr.push(item.msg)
-        })
-        return res.status(CLIENT_ERROR_STATUS.BAD_REQUEST).send({
-            errors: errorArr
-        });
-    }
-    return true
-}
-
+/**
+ * create new post
+ * @param {*} req 
+ * @param {*} res 
+ * @returns response
+ */
 async function createNewPost(req, res) {
     if (!req.body.params.title ||
         !req.body.params.content) {
@@ -49,6 +39,12 @@ async function createNewPost(req, res) {
     }
 }
 
+/**
+ * update existed post
+ * @param {*} req 
+ * @param {*} res 
+ * @returns response
+ */
 async function updatePost(req, res) {
     if (!req.body.params.title ||
         !req.body.params.content) {

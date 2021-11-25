@@ -3,6 +3,8 @@ import { body, validationResult } from "express-validator/check"
 import { USER_TRANS_ERROR, USER_TRANS_SUCCESS } from '../../lang/vi';
 import { CLIENT_ERROR_STATUS, SERVER_ERROR_STATUS, SUCCESSFUL_STATUS } from '../configs/httpStatusCode';
 import userService from '../services/user.service'
+import { handleError } from '../utils/Helper'
+
 // import DBHelper from '../utils/DBHelper'
 const jwt = require("jsonwebtoken");
 /**
@@ -33,17 +35,9 @@ async function postRegister(req, res) {
             message: "Register content can not be empty!"
         });
     }
-    let errorArr = []
-    let validationError = validationResult(req)
-    if (!validationError.isEmpty()) {
-        let errors = Object.values(validationError.mapped());
-        errors.forEach(item => {
-            errorArr.push(item.msg)
-        });
-        return res.status(CLIENT_ERROR_STATUS.BAD_REQUEST).send({
-            errors: errorArr
-        });
-    }
+
+    handleError(req, res)
+
     try {
         await userService.createNewUserAccount(req.body.params.email.trim(), req.body.params.password.trim())
         return res.status(SUCCESSFUL_STATUS.CREATED).json({
@@ -51,7 +45,9 @@ async function postRegister(req, res) {
         })
     } catch (error) {
         if (error.parent.message.includes("Duplicate entry")) {
-            return res.status(SUCCESSFUL_STATUS.ACCEPTED).json(USER_TRANS_ERROR.EMAIL_HAS_BEEN_USE)
+            return res.status(SUCCESSFUL_STATUS.ACCEPTED).json({
+                message: USER_TRANS_ERROR.EMAIL_HAS_BEEN_USE
+            })
         }
         return res.status(SERVER_ERROR_STATUS.INTERNAL_SERVER_ERROR).json({
             message: USER_TRANS_ERROR.INTERNAL_SERVER_ERROR,
@@ -68,18 +64,9 @@ async function postRegister(req, res) {
  * @returns tokens
  */
 async function postLogin(req, res) {
-    let errorArr = []
-    let validationError = validationResult(req)
-    if (!validationError.isEmpty()) {
-        let errors = Object.values(validationError.mapped());
-        errors.forEach(item => {
-            console.log(item)
-            errorArr.push(item.msg)
-        });
-        return res.status(SUCCESSFUL_STATUS.ACCEPTED).send({
-            errors: errorArr
-        });
-    }
+
+    handleError(req, res)
+
     try {
         const result = await userService.checkLogin(req.body.params.email, req.body.params.password)
         const userInforToGenerateToken = {
@@ -96,6 +83,9 @@ async function postLogin(req, res) {
             tokens.accessToken,
             process.env.JWT_SECRET
         );
+        //
+        await userService.updateLastLogin(result.email)
+        //
         return res.status(SUCCESSFUL_STATUS.OK).json({
             accessToken: tokens.accessToken,
             expiredTime: decoded.exp,
@@ -103,7 +93,9 @@ async function postLogin(req, res) {
         })
     } catch (error) {
         console.log(error)
-        return res.status(SUCCESSFUL_STATUS.ACCEPTED).json(error)
+        return res.status(SUCCESSFUL_STATUS.ACCEPTED).json({
+            error: error
+        })
     }
 }
 
@@ -124,8 +116,33 @@ async function getUserInfor(req, res) {
     }
 }
 
+async function updateProfile(req, res) {
+    try {
+        if (!req.email) {
+            res.status(CLIENT_ERROR_STATUS.FORBIDDEN).json(USER_TRANS_ERROR.JWT_INVALID)
+        }
+        handleError(req, res)
+
+        const userForUpdate = {
+            username: req.body.params.username,
+            intro: req.body.params.intro,
+            profile: req.body.params.profile,
+            mobile: req.body.params.mobile,
+        }
+        const result = await userService.updateUser(userForUpdate, req.signInUser.email)
+        return res.status(SUCCESSFUL_STATUS.OK).json({
+            message: result
+        })
+    } catch (error) {
+        return res.status(SUCCESSFUL_STATUS.ACCEPTED).json({
+            error: error
+        })
+    }
+}
+
 export default {
     postRegister,
     postLogin,
-    getUserInfor
+    getUserInfor,
+    updateProfile
 }
