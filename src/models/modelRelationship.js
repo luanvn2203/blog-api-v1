@@ -1,7 +1,7 @@
 
 let configRelationShip = (db) => {
     //one user have many post
-    db.users.hasMany(db.posts)
+    db.users.hasMany(db.posts,{ foreignKey: 'authorId' })
     db.posts.belongsTo(db.users, { foreignKey: 'authorId' })
 
     //one category has many post_category

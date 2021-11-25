@@ -20,10 +20,10 @@ async function addSampleRole() {
     return new Promise((resolve, reject) => {
         RoleModel.bulkCreate(roleList)
             .then(result => {
-                return true
+                return resolve(true)
             })
             .catch(err => {
-                return false
+                return reject(err)
             })
     })
 }

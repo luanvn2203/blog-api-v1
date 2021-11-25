@@ -1,6 +1,6 @@
 
 import user from '../controllers/user.controller'
-import verifyToken from '../middlewares/auth'
+import {verifyToken} from '../middlewares/auth'
 import {authValid} from '../validations/index'
 
 var router = require("express").Router();

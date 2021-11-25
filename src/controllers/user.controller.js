@@ -45,7 +45,7 @@ async function postRegister(req, res) {
         });
     }
     try {
-        await userService.createNewUserAccount(req.body.params.email, req.body.params.password)
+        await userService.createNewUserAccount(req.body.params.email.trim(), req.body.params.password.trim())
         return res.status(SUCCESSFUL_STATUS.CREATED).json({
             message: USER_TRANS_SUCCESS.REGISTER_SUCCESS
         })
