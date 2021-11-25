@@ -8,5 +8,5 @@ router.post("/register", authValid.register, user.postRegister);
 router.post("/login", authValid.login, user.postLogin)
 router.get('/me', isUser, user.getUserInfor)
 router.put('/update', isUser, userValid.update, user.updateProfile)
-
+router.put('/change-password', isUser, userValid.validatePassword, user.changePassword)
 module.exports = router

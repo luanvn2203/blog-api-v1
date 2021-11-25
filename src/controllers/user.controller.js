@@ -116,6 +116,12 @@ async function getUserInfor(req, res) {
     }
 }
 
+/**
+ * Change user profile without password
+ * @param {*} req 
+ * @param {*} res 
+ * @returns response
+ */
 async function updateProfile(req, res) {
     try {
         if (!req.email) {
@@ -140,9 +146,30 @@ async function updateProfile(req, res) {
     }
 }
 
+async function changePassword(req, res) {
+    try {
+        handleError(req, res)
+        const result = await userService.changeUserPassword(
+            req.body.params.originalPassword,
+            req.body.params.newPassword,
+            req.signInUser.email
+        )
+        res.status(SUCCESSFUL_STATUS.OK).json({
+            message: result
+        })
+
+    } catch (error) {
+        return res.status(SUCCESSFUL_STATUS.ACCEPTED).json({
+            error: error
+        })
+    }
+
+}
+
 export default {
     postRegister,
     postLogin,
     getUserInfor,
-    updateProfile
+    updateProfile,
+    changePassword
 }

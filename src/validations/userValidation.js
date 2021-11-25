@@ -17,7 +17,19 @@ let update = [
         .optional()
         .matches(/^(0)[0-9]{9,10}$/)
 ]
-
+let validatePassword = [
+    check("params.originalPassword", AUTH_VALIDATIONS_ERROR.PASSWORD_INCORRECT)
+        .isLength({ min: 8 })
+        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$/),
+    check("params.newPassword", AUTH_VALIDATIONS_ERROR.PASSWORD_INCORRECT)
+        .isLength({ min: 8 })
+        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}$/),
+    check("params.confirmNewPassword", AUTH_VALIDATIONS_ERROR.CONFIRM_PASSWORD_NOT_MATCHES)
+        .custom((value, { req }) => {
+            return value === req.body.params.newPassword
+        })
+]
 export default {
-    update
+    update,
+    validatePassword
 }

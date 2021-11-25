@@ -7,7 +7,8 @@ export const USER_TRANS_SUCCESS = {
     CREATE_NEW_POST_SUCCESS: 'Tạo bài viết thành công',
 
     UPDATE_POST_SUCCESS: 'Cập nhật bài viết thành công',
-    UPDATE_USER_SUCCESS:'Cập nhật thông tin cá nhân thành công'
+    UPDATE_USER_SUCCESS:'Cập nhật thông tin cá nhân thành công',
+    CHANGE_PASSWORD_SUCCESS: 'Đổi mật khẩu thành công'
 
 }
 
@@ -18,14 +19,16 @@ export const USER_TRANS_ERROR = {
     INVALID_USER_OR_EMAIL: 'Email hoặc mật khẩu không đúng',
     NOT_FOUND_USER_WITH_THIS_EMAIL: 'Không tin thấy thông tin người dùng',
     PARAMS_INVALID: 'Yêu cầu không đầy đủ',
-
+    OLD_PASSWORD_INCORRECT: 'Mật khẩu cũ không hợp lệ',
+    NOT_FOUND_USER: 'Không tìm thấy người dùng',
     CREATE_CATEGORIES_FAILED: 'Tạo thể loại bài viết không thành công',
     CREATE_TAGS_FAILED: 'Tạo mới thẻ bài viết không thành công',
     CREATE_NEW_POST_FAILED: 'Tạo bài viết không thành công',
     CREATE_NEW_POST_FAILED_WITH_DUPLICATE_TITLE_AND_CREATOR: 'Tên bài viết đã tồn tại trong thư viện của bạn, vui lòng chọn tên khác',
 
     UPDATE_POST_FAILED: 'Cập nhật bài viết thất bại',
-    UPDATE_USER_ERROR: 'Cập nhật thông tin bản thân thất bại'
+    UPDATE_USER_ERROR: 'Cập nhật thông tin bản thân thất bại',
+    CHANGE_PASSWORD_FAILED: 'Đổi mật khẩu không thành công'
 }
 
 

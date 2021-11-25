@@ -119,10 +119,31 @@ async function updateLastLogin(email) {
     })
 }
 
+async function changeUserPassword(originalPassword, newPassword, email) {
+    return new Promise(async (resolve, reject) => {
+        const userInfo = await UserModel.findByPk(email)
+        const isValidPassword = await comparePassword(originalPassword, userInfo.hashedPassword)
+        console.log(isValidPassword)
+        if (!isValidPassword) {
+            return reject(USER_TRANS_ERROR.OLD_PASSWORD_INCORRECT)
+        }
+        const saltRounds = 7;
+        const salt = bcrypt.genSaltSync(saltRounds);  // encrypt password
+        const encryptPassword = bcrypt.hashSync(newPassword, salt);
+        const result = UserModel.update({ hashedPassword: encryptPassword }, { where: { email: email } })
+        if (!result[0] === 0) {
+            return reject(USER_TRANS_ERROR.CHANGE_PASSWORD_FAILED)
+        }
+        //ok
+        return resolve(USER_TRANS_SUCCESS.CHANGE_PASSWORD_SUCCESS)
+    })
+}
+
 module.exports = {
     createNewUserAccount: createNewUserAccount,
     checkLogin: checkLogin,
     updateLastLogin: updateLastLogin,
     getUserInformationByPK: getUserInformationByPK,
-    updateUser: updateUser
+    updateUser: updateUser,
+    changeUserPassword: changeUserPassword
 }
