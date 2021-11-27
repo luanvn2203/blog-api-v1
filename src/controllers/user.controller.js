@@ -3,7 +3,7 @@ import { body, validationResult } from "express-validator/check"
 import { USER_TRANS_ERROR, USER_TRANS_SUCCESS } from '../../lang/vi';
 import { CLIENT_ERROR_STATUS, SERVER_ERROR_STATUS, SUCCESSFUL_STATUS } from '../configs/httpStatusCode';
 import userService from '../services/user.service'
-import { handleError } from '../utils/Helper'
+import { handleError, handleError2 } from '../utils/Helper'
 
 // import DBHelper from '../utils/DBHelper'
 const jwt = require("jsonwebtoken");
@@ -65,9 +65,9 @@ async function postRegister(req, res) {
  */
 async function postLogin(req, res) {
 
-    handleError(req, res)
 
     try {
+        const validateResult = await handleError2(req, res)
         const result = await userService.checkLogin(req.body.params.email, req.body.params.password)
         const userInforToGenerateToken = {
             email: result.email,

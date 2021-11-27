@@ -18,3 +18,19 @@ export const handleError = (req, res) => {
     }
     return true
 }
+
+
+export const handleError2 = (req, res) => {
+    return new Promise((resolve, reject) => {
+        const errorArr = []
+        const validationError = validationResult(req)
+        if (!validationError.isEmpty()) {
+            let errors = Object.values(validationError.mapped())
+            errors.forEach(item => {
+                errorArr.push(item.msg)
+            })
+            reject(errorArr)
+        }
+        resolve(true)
+    })
+}
