@@ -36,9 +36,9 @@ async function postRegister(req, res) {
         });
     }
 
-    handleError(req, res)
 
     try {
+        const validateResult = await handleError2(req, res)
         await userService.createNewUserAccount(req.body.params.email.trim(), req.body.params.password.trim())
         return res.status(SUCCESSFUL_STATUS.CREATED).json({
             message: USER_TRANS_SUCCESS.REGISTER_SUCCESS
@@ -64,10 +64,8 @@ async function postRegister(req, res) {
  * @returns tokens
  */
 async function postLogin(req, res) {
-
-
     try {
-        const validateResult = await handleError2(req, res)
+       await handleError2(req, res)
         const result = await userService.checkLogin(req.body.params.email, req.body.params.password)
         const userInforToGenerateToken = {
             email: result.email,
@@ -127,8 +125,7 @@ async function updateProfile(req, res) {
         if (!req.email) {
             res.status(CLIENT_ERROR_STATUS.FORBIDDEN).json(USER_TRANS_ERROR.JWT_INVALID)
         }
-        handleError(req, res)
-
+        await handleError2(req, res)
         const userForUpdate = {
             username: req.body.params.username,
             intro: req.body.params.intro,
@@ -148,7 +145,8 @@ async function updateProfile(req, res) {
 
 async function changePassword(req, res) {
     try {
-        handleError(req, res)
+        await handleError2(req, res)
+
         const result = await userService.changeUserPassword(
             req.body.params.originalPassword,
             req.body.params.newPassword,
