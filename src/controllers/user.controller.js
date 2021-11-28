@@ -31,27 +31,25 @@ const generateToken = (payload) => {
  */
 async function postRegister(req, res) {
     if (!req.body.params.email) {
-        return res.status(CLIENT_ERROR_STATUS.BAD_REQUEST).send({
+        return res.status(SUCCESSFUL_STATUS.ACCEPTED).send({
             message: "Register content can not be empty!"
         });
     }
 
-
     try {
-        const validateResult = await handleError2(req, res)
+        await handleError2(req, res)
         await userService.createNewUserAccount(req.body.params.email.trim(), req.body.params.password.trim())
         return res.status(SUCCESSFUL_STATUS.CREATED).json({
             message: USER_TRANS_SUCCESS.REGISTER_SUCCESS
         })
     } catch (error) {
-        if (error.parent.message.includes("Duplicate entry")) {
-            return res.status(SUCCESSFUL_STATUS.ACCEPTED).json({
-                message: USER_TRANS_ERROR.EMAIL_HAS_BEEN_USE
-            })
-        }
-        return res.status(SERVER_ERROR_STATUS.INTERNAL_SERVER_ERROR).json({
-            message: USER_TRANS_ERROR.INTERNAL_SERVER_ERROR,
-            error: error.name
+        // if (error.parent.message.includes("Duplicate entry")) {
+        //     return res.status(SUCCESSFUL_STATUS.ACCEPTED).json({
+        //         message: USER_TRANS_ERROR.EMAIL_HAS_BEEN_USE
+        //     })
+        // }
+        return res.status(SUCCESSFUL_STATUS.ACCEPTED).json({
+            error: error
         })
     }
 
@@ -65,7 +63,7 @@ async function postRegister(req, res) {
  */
 async function postLogin(req, res) {
     try {
-       await handleError2(req, res)
+        await handleError2(req, res)
         const result = await userService.checkLogin(req.body.params.email, req.body.params.password)
         const userInforToGenerateToken = {
             email: result.email,

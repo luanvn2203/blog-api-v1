@@ -16,7 +16,7 @@ export const handleError = (req, res) => {
             errors: errorArr
         });
     }
-    return true
+    return 
 }
 
 

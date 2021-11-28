@@ -32,7 +32,10 @@ let createNewUserAccount = (email, password) => {
                 return resolve(true)
             })
             .catch(err => {
-                return reject(err)
+                if (err.parent.message.includes("Duplicate entry")){
+                return reject(USER_TRANS_ERROR.EMAIL_HAS_BEEN_USE)
+                }
+                return reject(err.message)
             });
     })
 }
@@ -67,7 +70,7 @@ async function getUserInformationByPK(email) {
                     model: db.roles,
                     attributes: ['roleName', 'description']
                 }],
-                attributes: ['email', 'roleId', 'username'],
+                attributes: ['email', 'roleId', 'username', 'intro', 'profile', 'mobile'],
             })
             .then(user => {
                 if (!user) {

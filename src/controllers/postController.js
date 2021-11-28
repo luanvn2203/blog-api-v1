@@ -12,7 +12,7 @@ import { handleError2 } from '../utils/Helper'
 async function createNewPost(req, res) {
     if (!req.body.params.title ||
         !req.body.params.content) {
-        return res.status(CLIENT_ERROR_STATUS.BAD_REQUEST).json({
+        return res.status(SUCCESSFUL_STATUS.ACCEPTED).json({
             error: USER_TRANS_ERROR.PARAMS_INVALID
         })
     }
